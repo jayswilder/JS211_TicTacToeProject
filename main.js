@@ -18,6 +18,7 @@ let board = [
   [' ', ' ', ' ']
 ];
 
+
 // assigns the first mark as 'X'
 // using let because the variable is expected to change from 'X' to 'O' and back
 let playerTurn = 'X';
@@ -34,24 +35,105 @@ const printBoard = () => {
 
 const horizontalWin = () => {
   // Your code here to check for horizontal wins
+  for (let i = 0; i < 3; i++) {
+    if (board[i][0]==board[i][1]&& board[i][0]==board[i][2]){
+    if (board[i][0] == 'X' || board[i][0] == 'O'){
+        return true;
+      }
+    }  
+  }
+  return false;
 }
 
 const verticalWin = () => {
   // Your code here to check for vertical wins
-}
+  for (let i = 0; i < 3; i++)
+  { if (board[0][i] == board[1][i]&& board[0][i] == board[2][i]){
+    if(board[0][i] == 'X' || board[0][i] == 'O'){
+        return true;
+      }
+    }
+  }
+  return false;
+};
 
 const diagonalWin = () => {
   // Your code here to check for diagonal wins
+  if (board[0][0] === board[1][1] && board[1][1] === board[2][2]) {
+    if(board[0][0] =='X' || board[0][0] =='O') {
+    return true;
+    }
+  };
+  
+  if (board[0][2] === board[1][1] && board[2][0]) {
+    if(board[0][2] =='X' || board[0][2] =='O') {
+    return true;
+    }
+  } else {
+    return false;
+  }
 }
 
 const checkForWin = () => {
   // Your code here call each of the check for types of wins
+  if (horizontalWin()){
+    return true;
+  }
+    if (diagonalWin()) {
+    return true;
+    }
+  if (verticalWin()){
+      return true;
+    } else {
+    return false;
+  }
 }
+
+const changeMarker = () => {
+  // ternary operator: if it's an X make it an O, if O make it an X
+  playerTurn = playerTurn === "X" ? "O" : "X"
+}
+
+const validInput = (row, column) => {
+  if (row > 2 || column > 2) {
+    console.log(" ");
+    console.log("Invalid Input! Please enter '0', '1', or '2'!");
+    console.log(" ");
+  } else {
+    return true;
+  }
+}
+const resetBoard = () => {
+  if (checkForWin()) {
+    board = [
+      [' ', ' ', ' '],
+      [' ', ' ', ' '],
+      [' ', ' ', ' ']
+    ];
+  }
+};
 
 const ticTacToe = (row, column) => {
   // Your code here to place a marker on the board
   // then check for a win
+  if (validInput(row, column)) {
+  board[row][column] = playerTurn;
+  
+  if (checkForWin()) {
+    console.log(" ");
+    console.log(`Winner! ${playerTurn}`);
+    console.log(" ")
+
+    resetBoard();
+
+    console.log("New game started!");
+    console.log(" ");
+
+  } else {
+  changeMarker();
+  }
 }
+};
 
 const getPrompt = () => {
   printBoard();

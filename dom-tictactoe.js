@@ -30,7 +30,7 @@ const addMarker = (id) => {
   console.log(`We'll place a mark on square: ${id}`)
   // @TODO, Mix & Match. 
   // You will need the following pieces:
-  
+  document.getElementById(id).innerHTML = currentMarker;
   // = currentMarker
   // .getElementById(id)
   // document
@@ -50,6 +50,7 @@ const updateBoard = (id) => {
   console.log(board)
 
   // @TODO, Your code here: use the above information to change the board variable(array of arrays)
+  board[row][column] = currentMarker;
   // HINT: in your browser open up the dev tools -> console
 }
 
@@ -57,23 +58,60 @@ const checkForWin = () => {
   // calls each checkForWin possibility and if any are true gives a page alert,
   if(horizontalWin() || verticalWin() || diagonalWin()) {
     // **BONUS** you could make the dismissal of this alert window reset the board...
-    window.alert(`Player ${currentMarker} won!`)
-  } else {
+    if (currentMarker == 'X'){
+      setTimeout (function(){window.alert(`Player ${currentMarker} won!`);},200);
+      setTimeout (function(){resetBoard();},2000);
+    };
+
+    if (currentMarker == 'O'){
+      setTimeout (function(){window.alert(`Player ${currentMarker} won!`);},200);
+      setTimeout (function(){resetBoard();},2000);
+    } 
     // if no win, change the marker from X to O, or O to X for the next player.
-    changeMarker()
-  }
+    
+  } else 
+  changeMarker()
 }
 
 const horizontalWin = () => {
-  // @TODO, Your code here: to check for horizontal wins
+  // Your code here to check for horizontal wins
+  for (let i = 0; i < 3; i++) {
+    if (board[i][0]==board[i][1]&& board[i][0]==board[i][2]){
+    if (board[i][0] == 'X' || board[i][0] == 'O'){
+        return true;
+      }
+    }  
+  }
+  return false;
 }
 
 const verticalWin = () => {
-  // @TODO, Your code here: to check for vertical wins
-}
+  // Your code here to check for vertical wins
+  for (let i = 0; i < 3; i++)
+  { if (board[0][i] == board[1][i]&& board[0][i] == board[2][i]){
+    if(board[0][i] == 'X' || board[0][i] == 'O'){
+        return true;
+      }
+    }
+  }
+  return false;
+};
 
 const diagonalWin = () => {
-  // @TODO, Your code here: to check for diagonal wins
+  // Your code here to check for diagonal wins
+  if (board[0][0] === board[1][1] && board[1][1] === board[2][2]) {
+    if(board[0][0] =='X' || board[0][0] =='O') {
+    return true;
+    }
+  };
+  
+  if (board[0][2] === board[1][1] && board[2][0]) {
+    if(board[0][2] =='X' || board[0][2] =='O') {
+    return true;
+    }
+  } else {
+    return false;
+  }
 }
 
 const changeMarker = () => {
@@ -93,8 +131,12 @@ const resetBoard = () => {
     console.log(squares[i])
     squares[i].innerHTML = null
   }
-  
   // @TODO, Your code here: make sure to reset the array of arrays to empty for a new game
+  board = [
+    ['','',''],
+    ['','',''],
+    ['','','']
+  ];
 }
 
 // **BONUSES**
